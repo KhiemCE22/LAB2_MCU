@@ -8,9 +8,11 @@
 #ifndef INC_SOFTWARE_TIMER_H_
 #define INC_SOFTWARE_TIMER_H_
 
-extern int flag_timer;
-void setTimer(int duration);
-void runTimer();
+#define SIZE 2
+
+extern int flag_timer[SIZE];
+void setTimer(int index, int duration);
+void runTimer(int index);
 
 
 #endif /* INC_SOFTWARE_TIMER_H_ */

@@ -7,8 +7,10 @@
 
 #include "exercise.h"
 
-# define LED1 0 
-# define LED2 1
+# define LED0 0
+# define LED1 1
+# define LED2 2
+# define LED3 3
 int status_led;
 
 void display7SEG(int num){
@@ -39,28 +41,45 @@ void display7SEG(int num){
 
 }
 
-void init_exercise1(){
-	status_led = LED1;
+void init_exercise(){
+	status_led = LED0;
+	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
+	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
 }
 
-void run_exercise1(){
+void run_LED_SEG(){
 	HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 	switch (status_led) {
-		case LED1 :
-			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-			status_led = LED2;
+		case LED0 :
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
+			status_led = LED1;
 			display7SEG(1);
 			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
-
 			break;
-		case LED2 :
+		case LED1 :
 			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-			status_led = LED1;
+			status_led = LED2;
 			display7SEG(2);
 			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
-
+			break;
+		case LED2 :
+			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
+			status_led = LED3;
+			display7SEG(3);
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
+			break;
+		case LED3 :
+			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
+			status_led = LED0;
+			display7SEG(0);
+			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
 			break;
 		default:
 			break;
 	}
+}
+void run_DOT(){
+	HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 }

@@ -1,3 +1,4 @@
-exericse.c:14:6:display7SEG	64	static
-exericse.c:42:6:init_exercise1	4	static
-exericse.c:46:6:run_exercise1	8	static
+exericse.c:16:6:display7SEG	64	static
+exericse.c:44:6:init_exercise	8	static
+exericse.c:52:6:run_LED_SEG	8	static
+exericse.c:83:6:run_DOT	8	static

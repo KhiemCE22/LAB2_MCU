@@ -11,10 +11,15 @@
 # define LED1 1
 # define LED2 2
 # define LED3 3
-int status_led;
+
+
+
 const int MAX_LED = 4;
 int index_led = 0;
-int led_buffer[4] = {0,1,2,3};
+int led_buffer[4] = {1,5,0,8};
+
+int hour, minute, second;
+
 void display7SEG(int num){
 	//use  BCD decoder
 	int A,B,C,D;
@@ -43,13 +48,11 @@ void display7SEG(int num){
 
 }
 
-//void init_exercise(){
-//	status_led = LED0;
-//	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-//	HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-//	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-//	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-//}
+void init_exercise(){
+	hour = 15;
+	minute = 8;
+	second = 50;
+}
 //
 //void run_LED_SEG(){
 //	HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
@@ -123,4 +126,40 @@ void update7SEG(int index){
 		default:
 			break;
 	}
+}
+
+void updateClockBuffer(){
+	if ( (0 <= hour) && (hour <= 9) ){
+		led_buffer[0] = 0;
+		led_buffer[1] = hour;
+	}
+	else {
+		led_buffer[0] = hour / 10;
+		led_buffer[1] = hour % 10;
+	}
+	if ((0 <= minute) && (minute <= 9)){
+		led_buffer[2] = 0;
+		led_buffer[3] = minute;
+	}
+	else {
+		led_buffer[2] = minute / 10;
+		led_buffer[3] = minute % 10;
+	}
+
+}
+
+void run_exercise(){
+	second ++;
+	if (second >= 60){
+		second = 0;
+		minute ++;
+	}
+	if (minute >= 60){
+		minute = 0;
+		hour ++;
+	}
+	if (hour >= 24){
+		hour = 0;
+	}
+	updateClockBuffer();
 }

@@ -10,8 +10,13 @@
 
 #include "main.h"
 extern int index_led;
-//void init_exercise();
-//void run_LED_SEG();
+
+extern int hour, minute, second;
+
+void init_exercise();
+void run_exercise();
+
 void run_DOT();
 void update7SEG(int index);
+void updateClockBuffer();
 #endif /* INC_EXERCISE_H_ */

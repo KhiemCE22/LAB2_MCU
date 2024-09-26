@@ -97,7 +97,6 @@ int main(void)
   setTimer(DOT, 100);
   // LED switch half of second
   setTimer(LED_SEG, 50);
-  init_exercise();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -109,7 +108,9 @@ int main(void)
 		 setTimer(DOT, 100);
 	 }
 	 if (flag_timer[LED_SEG] == 1){
-		 run_LED_SEG();
+		 if (index_led >= 4)
+			 index_led = 0;
+		 update7SEG(index_led++);
 		 setTimer(LED_SEG, 50);
 	 }
     /* USER CODE END WHILE */

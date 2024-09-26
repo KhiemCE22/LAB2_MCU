@@ -95,8 +95,8 @@ int main(void)
   HAL_TIM_Base_Start_IT (& htim2 );
   // DOT blink each second
   setTimer(DOT, 100);
-  // LED switch half of second
-  setTimer(LED_SEG, 50);
+  // LED switch quarter of second
+  setTimer(LED_SEG, 25);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -111,7 +111,7 @@ int main(void)
 		 if (index_led >= 4)
 			 index_led = 0;
 		 update7SEG(index_led++);
-		 setTimer(LED_SEG, 50);
+		 setTimer(LED_SEG, 25);
 	 }
     /* USER CODE END WHILE */
 

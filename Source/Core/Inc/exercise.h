@@ -9,9 +9,9 @@
 #define INC_EXERCISE_H_
 
 #include "main.h"
-
-void init_exercise();
-void run_LED_SEG();
+extern int index_led;
+//void init_exercise();
+//void run_LED_SEG();
 void run_DOT();
-
+void update7SEG(int index);
 #endif /* INC_EXERCISE_H_ */

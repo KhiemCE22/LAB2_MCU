@@ -8,6 +8,7 @@
 
 #include "software_timer.h"
 
+#define SIZE 3
 
 int flag_timer[SIZE];
 int timer_counter[SIZE];

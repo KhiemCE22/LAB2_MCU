@@ -7,18 +7,24 @@
 
 #include "exercise.h"
 
-# define LED0 0
-# define LED1 1
-# define LED2 2
-# define LED3 3
+//# define LED0 0
+//# define LED1 1
+//# define LED2 2
+//# define LED3 3
 
 
-
+/////
 const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = {1,5,0,8};
 
 int hour, minute, second;
+
+
+/////
+const int MAX_LED_MATRIX = 8;
+int index_led_matrix = 0;
+uint8_t matrix_buffer [8] = {0x18 , 0x3c , 0x66 , 0x7e , 0x7e , 0x66 , 0x66 , 0x66}; // dipslay character A
 
 void display7SEG(int num){
 	//use  BCD decoder
@@ -48,43 +54,12 @@ void display7SEG(int num){
 
 }
 
-void init_exercise(){
+void init_clock(){
 	hour = 15;
 	minute = 8;
 	second = 50;
 }
-//
-//void run_LED_SEG(){
-//	HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
-//	switch (status_led) {
-//		case LED0 :
-//			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
-//			status_led = LED1;
-//			display7SEG(1);
-//			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, RESET);
-//			break;
-//		case LED1 :
-//			HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin, SET);
-//			status_led = LED2;
-//			display7SEG(2);
-//			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, RESET);
-//			break;
-//		case LED2 :
-//			HAL_GPIO_WritePin(EN1_GPIO_Port, EN1_Pin, SET);
-//			status_led = LED3;
-//			display7SEG(3);
-//			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, RESET);
-//			break;
-//		case LED3 :
-//			HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
-//			status_led = LED0;
-//			display7SEG(0);
-//			HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, RESET);
-//			break;
-//		default:
-//			break;
-//	}
-//}
+
 void run_DOT(){
 	HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 }
@@ -147,8 +122,66 @@ void updateClockBuffer(){
 	}
 
 }
+void decodeLed(uint8_t _8bit_led_){
+	/* Control 8x8 matrix led by ULN2803
+	 * ULN 2803: array 8 not gate
+	 * so active-low for ENM to control COLLUMN
+	 * */
+	uint16_t ENMX[8] = {ENM0_Pin, ENM1_Pin, ENM2_Pin, ENM3_Pin,
+						ENM4_Pin, ENM5_Pin, ENM6_Pin, ENM7_Pin };
+	for (int col = 0; col < 8; ++col){
+		if ( (_8bit_led_) & (1 << (7 - col) ) ){
+			// column th led is turn on
+			HAL_GPIO_WritePin(GPIOA, ENMX[col], RESET);
+		}
+		else {
+			HAL_GPIO_WritePin(GPIOA, ENMX[col], SET);
+		}
+	}
+}
 
-void run_exercise(){
+
+void updateLEDMatrix(int index){
+
+	/* Turn specified led on a row
+	 * col is controlled by ENM GPIO
+	 */
+	HAL_GPIO_WritePin(GPIOB, ROW0_Pin | ROW1_Pin | ROW2_Pin | ROW3_Pin
+							|ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin	, SET);
+    // Decode and set columns
+    decodeLed(matrix_buffer[index]);
+
+    // Turn on the specific row
+    switch (index) {
+        case 0:
+            HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, RESET);
+            break;
+        case 1:
+            HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, RESET);
+            break;
+        case 2:
+            HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, RESET);
+            break;
+        case 3:
+            HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, RESET);
+            break;
+        case 4:
+            HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, RESET);
+            break;
+        case 5:
+            HAL_GPIO_WritePin(ROW5_GPIO_Port, ROW5_Pin, RESET);
+            break;
+        case 6:
+            HAL_GPIO_WritePin(ROW6_GPIO_Port, ROW6_Pin, RESET);
+            break;
+        case 7:
+            HAL_GPIO_WritePin(ROW7_GPIO_Port, ROW7_Pin, RESET);
+            break;
+        default:
+            break;
+    }
+}
+void run_clock(){
 	second ++;
 	if (second >= 60){
 		second = 0;

@@ -12,11 +12,13 @@
 extern int index_led;
 
 extern int hour, minute, second;
+extern int index_led_matrix;
 
-void init_exercise();
-void run_exercise();
+void init_clock();
+void run_clock();
 
 void run_DOT();
 void update7SEG(int index);
 void updateClockBuffer();
+void updateLEDMatrix(int index);
 #endif /* INC_EXERCISE_H_ */

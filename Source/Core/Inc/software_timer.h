@@ -8,7 +8,7 @@
 #ifndef INC_SOFTWARE_TIMER_H_
 #define INC_SOFTWARE_TIMER_H_
 
-#define SIZE 2
+#define SIZE 3
 
 extern int flag_timer[SIZE];
 void setTimer(int index, int duration);

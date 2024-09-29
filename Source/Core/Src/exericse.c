@@ -73,6 +73,7 @@ void clear7SEG(){
 	HAL_GPIO_WritePin(EN0_GPIO_Port, EN0_Pin << 3, SET);
 }
 void update7SEG(int index){
+
 	switch (index) {
 		case 0:
 			clear7SEG();
@@ -122,6 +123,7 @@ void updateClockBuffer(){
 	}
 
 }
+
 void decodeLed(uint8_t _8bit_led_){
 	/* Control 8x8 matrix led by ULN2803
 	 * ULN 2803: array 8 not gate
@@ -150,7 +152,8 @@ void updateLEDMatrix(int index){
 							|ROW4_Pin | ROW5_Pin | ROW6_Pin | ROW7_Pin	, SET);
     // Decode and set columns
     decodeLed(matrix_buffer[index]);
-
+    // Circular shift left the previous row
+    matrix_buffer[index - 1] = (matrix_buffer[index - 1] >> 7) | (matrix_buffer[index - 1] << 1);
     // Turn on the specific row
     switch (index) {
         case 0:

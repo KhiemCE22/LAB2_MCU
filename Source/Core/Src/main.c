@@ -99,7 +99,7 @@ int main(void)
   // LED switch quarter of second
   setTimer(LED_SEG, 250);
   // MATRIX scan 1/8 second
-  setTimer(MATRIX, 125);
+  setTimer(MATRIX, 13);
   //init clock
   init_clock();
   // init
@@ -124,7 +124,7 @@ int main(void)
 		 if (index_led_matrix >= 8)
 			 index_led_matrix = 0;
 		 updateLEDMatrix(index_led_matrix ++);
-		 setTimer(MATRIX, 125);
+		 setTimer(MATRIX, 13);
 	 }
     /* USER CODE END WHILE */
 

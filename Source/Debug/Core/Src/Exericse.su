@@ -5,5 +5,5 @@ exericse.c:69:6:clear7SEG	8	static
 exericse.c:75:6:update7SEG	16	static
 exericse.c:106:6:updateClockBuffer	4	static
 exericse.c:125:6:decodeLed	48	static
-exericse.c:140:6:updateLEDMatrix	16	static
-exericse.c:180:6:run_clock	8	static
+exericse.c:144:6:updateLEDMatrix	16	static
+exericse.c:185:6:run_clock	8	static

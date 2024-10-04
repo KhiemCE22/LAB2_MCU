@@ -36,6 +36,7 @@
 #define DOT 0
 #define LED_SEG 1
 #define MATRIX 2
+#define SHIFT 3
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -100,6 +101,8 @@ int main(void)
   setTimer(LED_SEG, 250);
   // MATRIX scan 1/8 second
   setTimer(MATRIX, 10);
+  // SHIFT
+  setTimer(SHIFT, 60);
   //init clock
   init_clock();
   // init
@@ -125,6 +128,10 @@ int main(void)
 			 index_led_matrix = 0;
 		 updateLEDMatrix(index_led_matrix ++);
 		 setTimer(MATRIX, 10);
+	 }
+	 if (flag_timer[SHIFT] == 1){
+		shiftMatrix();
+		setTimer(SHIFT, 60);
 	 }
     /* USER CODE END WHILE */
 
@@ -271,6 +278,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	runTimer(DOT);
 	runTimer(LED_SEG);
 	runTimer(MATRIX);
+	runTimer(SHIFT);
 }
 /* USER CODE END 4 */
 

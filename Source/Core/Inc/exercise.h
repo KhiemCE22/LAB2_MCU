@@ -21,4 +21,5 @@ void run_DOT();
 void update7SEG(int index);
 void updateClockBuffer();
 void updateLEDMatrix(int index);
+void shiftMatrix();
 #endif /* INC_EXERCISE_H_ */
